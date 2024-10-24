@@ -1,3 +1,110 @@
 # HW1 Arabidopsis thaliana, SNP analysis.
 
-- **Arabidopsis thaliana** is a model organism widely used in plant biology, and its various ecotypes, including Columbia-0 (Col-0) and Valsi-1, are of particular interest for genetic and physiological studies.
+## 1. Introduction:
+- **Arabidopsis thaliana** — это один из наиболее изученных растительных геномов. Arabidopsis thaliana является модельным организмом для многих биологических исследований, особенно в области генетики, молекулярной биологии и физиологии растений. Его небольшие размеры и простота в культивации сделали его популярным объектом для изучения.
+- В моей работе проводилось сравнение геномов Arabidopsis thaliana:
+    - GCA_036941785.1 (Ecotype: Valsi-1, Geographic location: Italy);
+    - GCF_000001735.4 (Ecotype: Columbia, референсный геном).
+- Одним из ключевых механизмов, участвующих в регуляции роста и реакции растений на стрессы, является биосинтез этилена — фитогормона, который играет важную роль в процессах роста, развития, старения и реакции на стрессовые условия, такие как засуха и патогены. Важный этап биосинтеза этилена катализируется ферментом 1-аминоциклопропан-1-карбоксилат синтазой, который кодируется геном AT1G01480 (ACS2).
+- **Цель данного исследования** — выявить значимые однонуклеотидные полиморфизмы (СНП) между двумя экотипами Arabidopsis thaliana, Valsi-1 и референсным экотипом Columbia, с последующим фокусом на анализе гена AT1G01480 (ACS2). Этот ген кодирует фермент 1-аминоциклопропан-1-карбоксилат синтазу (ACS2), который играет важную роль в биосинтезе этилена, важного фитогормона.
+
+## 2. Main part 
+### 2.1 Methodology:
+- Перед началом работы был проведён анализ качества сборок геномов с использованием инструментов BUSCO и QUAST для оценки полноты генома и его соответствия эталонным данным.
+**1). QUAST:**
+```
+
+All statistics are based on contigs of size >= 3000 bp, unless otherwise noted (e.g., "# contigs (>= 0 bp)" and "Total length (>= 0 bp)" include all contigs).
+
+Assembly                    GCA_036941785.1_ASM3694178v1_genomic
+# contigs (>= 0 bp)         5                                   
+# contigs (>= 1000 bp)      5                                   
+# contigs (>= 5000 bp)      5                                   
+# contigs (>= 10000 bp)     5                                   
+# contigs (>= 25000 bp)     5                                   
+# contigs (>= 50000 bp)     5                                   
+Total length (>= 0 bp)      135622609                           
+Total length (>= 1000 bp)   135622609                           
+Total length (>= 5000 bp)   135622609                           
+Total length (>= 10000 bp)  135622609                           
+Total length (>= 25000 bp)  135622609                           
+Total length (>= 50000 bp)  135622609                           
+# contigs                   5                                   
+Largest contig              33656486                            
+Total length                135622609                           
+GC (%)                      36.43                               
+N50                         25422156                            
+N90                         22819016                            
+auN                         27798512.8                          
+L50                         3                                   
+L90                         5                                   
+# N's per 100 kbp           82.35
+
+```
+**2). BUSCO:**
+```
+# BUSCO version is: 5.8.0 
+# The lineage dataset is: brassicales_odb10 (Creation date: 2024-01-08, number of genomes: 10, number of BUSCOs: 4596)
+# Summarized benchmarking in BUSCO notation for file /content/GCA_036941785.1_ASM3694178v1_genomic.fna
+# BUSCO was run in mode: euk_genome_min
+# Gene predictor used: miniprot
+
+	***** Results: *****
+
+	C:99.9%[S:98.9%,D:1.0%],F:0.1%,M:0.0%,n:4596,E:1.1%	   
+	4591	Complete BUSCOs (C)	(of which 49 contain internal stop codons)		   
+	4545	Complete and single-copy BUSCOs (S)	   
+	46	Complete and duplicated BUSCOs (D)	   
+	4	Fragmented BUSCOs (F)			   
+	1	Missing BUSCOs (M)			   
+	4596	Total BUSCO groups searched		   
+
+Assembly Statistics:
+	5	Number of scaffolds
+	15	Number of contigs
+	135622609	Total length
+	0.082%	Percent gaps
+	25 MB	Scaffold N50
+	18 MB	Contigs N50
+
+
+Dependencies and versions:
+	hmmsearch: 3.4
+	bbtools: None
+	miniprot_index: 0.13-r248
+	miniprot_align: 0.13-r248
+	python: sys.version_info(major=3, minor=10, micro=14, releaselevel='final', serial=0)
+	busco: 5.8.0
+
+```
+- Далее геномы были выровнены с эталонным геномом Arabidopsis thaliana экотипа Columbia (сборка GCF_000001735.4) с помощью инструмента Minimap2, который позволяет эффективно проводить выравнивание длинных последовательностей.
+- Для выявления SNP между исследуемыми геномами и референсной последовательностью был использован инструмент bcftools. Особое внимание уделялось SNP в кодирующих регионах гена AT1G01480 (ACS2), отвечающего за синтез фермента 1-аминоциклопропан-1-карбоксилат синтазы, участвующего в биосинтезе этилена.
+- Выявленные SNP были проанализированы с помощью онлайн-инструмента VEP. Аннотированные SNP были сопоставлены с базой данных UniProt для определения их возможного влияния на структуру и функцию белка.
+- Дальнейшая фильтрация SNP проводилась с учётом их влияния на структуру белка. Были отобраны миссенс-мутации, которые могут вызывать аминокислотные замены. Для оценки потенциальной вредности этих замен использовались значения SIFT, при этом отбирались только мутации с индексом менее 0,05, что указывает на их возможную делетерность и способность негативно влиять на функцию белка.
+
+### 2.2. Results: 
+![Снимок экрана 2024-10-24 012012](https://github.com/user-attachments/assets/f227d39c-8167-4968-9749-1a7554e0802e)
+![Снимок экрана 2024-10-24 012603](https://github.com/user-attachments/assets/f354ec26-f3bf-445f-b67b-aa1b7219519c)
+
+- Наблюдается несколько мутаций:
+    - upstream_gene_variant
+    - intron_variant
+    - synonymous_variant
+    - missense_variant
+    - 5_prime_UTR_variant
+      
+- Наиболее значимые варианты — это те, которые могут повлиять на структуру или функцию белка. Рассмотрим missense_variant, особенно те, где **SIFT ≤ 0.05** — вариант скорее всего вредоносный, с высокой вероятностью воздействия на функцию белка. Значение **SIFT = 0** означает, что замена аминокислоты считается абсолютно неприемлемой для функции белка. Это может указывать на серьезные изменения в структуре или функции белка, которые могут привести к его неработоспособности.
+
+Вот отфильтрованные результаты:
+![Снимок экрана 2024-10-24 014325](https://github.com/user-attachments/assets/7b91ab98-c8ca-46cf-bda7-d3f7d9ea501d)
+
+- при замене GCG/GTG: Аланин (Ala) меняется на Валин (Val).
+- при замене GTT/GCT: Валин (Val) меняется на Аланин (Ala).
+- при замене GAC/GGC: Аспартат (Asp) меняется на Глицин (Gly).
+
+---
+
+- Наиболее значимым вариантом является Asp → Gly (Аспартат на Глицин), так как изменение заряда и размера аминокислоты может серьёзно повлиять на функцию белка.
+- Остальные замены (Аланин на Валин и наоборот) также могут оказать влияние, но скорее всего, их воздействие будет более умеренным и контекстуально зависимым.
+## 3. Conclusions:
+
