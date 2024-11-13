@@ -10,13 +10,14 @@
 wget -O tair10.fna.gz https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/735/GCF_000001735.4_TAIR10.1/GCF_000001735.4_TAIR10.1_genomic.fna.gz
 
 !gunzip /content/tait10.fna.gz
-
+```
+```
 # GCA_964271285.1 (A.halleri)
 wget -O hall.fna.gz https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/964/271/285/GCA_964271285.1_ddAraHall_1.3/GCA_964271285.1_ddAraHall_1.3_genomic.fna.gz
 
 gunzip hall.fna.gz
 ```
-- Референс оставляем неизменным, а вот hall.fna, имеет очень много контиг, которые мы обрезаем, чтобы оставить только основные хромосомы. 
+- Референс оставляем неизменным, а вот hall.fna, имеет очень много контиг, которые мы обрезаем, чтобы оставить только основные 8 хромосом. 
 ```
 sed '26021511,2840350d' hall.fna > hall_trimmed.fna
 ```
@@ -24,7 +25,11 @@ sed '26021511,2840350d' hall.fna > hall_trimmed.fna
 ## 2. Настройка окружения и загрузка необходимых инструментов 
 ```
 conda create -n jp
+```
+```
 source activate jp && conda install -c conda-forge -c bioconda jupiterplot minimap2 samtools
+```
+```
 conda install -c conda-forge -c bioconda circos circos-tools
 ```
 ## 3. Построение графика:
