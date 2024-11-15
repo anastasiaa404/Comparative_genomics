@@ -1,4 +1,4 @@
-# Лабжурнал по Jupiter plot
+![tair_hall_tr](https://github.com/user-attachments/assets/4507990d-4de5-473c-8343-68e0d62de02d)# Лабжурнал по Jupiter plot
 - Работа в начале проводилась в юпитер ноутбуке, потом в командной строке, выходила постоянная ошибка (Error 137), что не хватает вычислительной мощности (что странно), поэтому было приняло решение переделать на сервере, где все уже прекрасно посчитлаось.
 
 ## 1.Загрузка геномов
@@ -45,6 +45,12 @@ jupiter name=tair_hall ref=tair10.fna fa=hall_trimmed.fna
 scp -i ~/.ssh/id_rsa aanferova@77.234.216.99:/media/eternus1/nfs/projects/users/aanferova/comparative_genomics/hw3/tair_hall.svg /home/anastasia/tair_hall.svg
 ```
 - ![jupiter_plot](https://github.com/user-attachments/assets/21e0cd47-5af4-42ba-b043-122677e4e3aa)
+
+- Также добавили параметры ng=0 labels=both? такой график мне понравился больше и выглядит логичнее.
+```
+source activate jp && jupiter name=tair_hall_tr ref=tair10.fna fa=hall_tr.fna ng=0 labels=both
+```
+![2024-11-15_14-18-10](https://github.com/user-attachments/assets/dcd25b02-9a32-4f67-bb9a-ed283f5d0af3)
 
 ## 4. Выводы:
 - Этот график представляет собой циркулярное выравнивание двух геномов — Arabidopsis thaliana (референс) и Arabidopsis halleri — и показывает перестройки между ними.
